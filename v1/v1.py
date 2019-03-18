@@ -19,14 +19,17 @@ class NVCCPlugin(Magics):
 
     @staticmethod
     def compile(file_path):
-        subprocess.check_output([compiler, file_path + ext, "-o", file_path + ".out"], stderr=subprocess.STDOUT)
+        subprocess.check_output([compiler, "--expt-extended-lambda", file_path +
+                                 ext, "-o", file_path + ".out"], stderr=subprocess.STDOUT)
 
     def run(self, file_path, timeit=False):
         if timeit:
             stmt = f"subprocess.check_output(['{file_path}.out'], stderr=subprocess.STDOUT)"
-            output = self.shell.run_cell_magic(magic_name="timeit", line="-q -o import subprocess", cell=stmt)
+            output = self.shell.run_cell_magic(
+                magic_name="timeit", line="-q -o import subprocess", cell=stmt)
         else:
-            output = subprocess.check_output([file_path + ".out"], stderr=subprocess.STDOUT)
+            output = subprocess.check_output(
+                [file_path + ".out"], stderr=subprocess.STDOUT)
             output = output.decode('utf8')
         return output
 
