@@ -19,8 +19,8 @@ class NVCCPlugin(Magics):
 
     @staticmethod
     def compile(file_path):
-        subprocess.check_output([compiler, "--expt-extended-lambda", file_path +
-                                 ext, "-o", file_path + ".out"], stderr=subprocess.STDOUT)
+        subprocess.check_output([compiler, "--expt-extended-lambda", "-o", file_path + ".out",
+                                 file_path + ext], stderr=subprocess.STDOUT)
 
     def run(self, file_path, timeit=False):
         if timeit:
